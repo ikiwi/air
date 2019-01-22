@@ -2,16 +2,45 @@
 	<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
 <script>
   // Initialize Firebase
-  // TODO: Replace with your project's customized code snippet
-  var config = {
-    apiKey: "AIzaSyCCe6uaPZdK6afLPrPP8Qci19M_mcNi4hk",
-    authDomain: "airquality-8059.firebaseapp.com",
-    databaseURL: "https://airquality-8059.firebaseio.com",
-    projectId: "airquality-8059",
-    storageBucket: "airquality-8059.appspot.com",
-    messagingSenderId: "223932177343",
-  };
-  firebase.initializeApp(config);
+var map;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 32.7157, lng: 117.1611},
+          zoom: 20
+        });
+
+        $.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
+            console.log(result1);
+            // jquery
+            $.each(result1, function(key, value) {
+
+              var result = value;
+
+              console.log(result.CO2);
+              console.log(result.TVOC);
+              console.log(result.Temp);
+              console.log(result.time);
+              //console.log(result.lat);
+              //console.log(result.lon);
+
+              $("#co2Label").text(result.CO2);
+              $("#tvocLabel").text(result.TVOC);
+              $("#tempLabel").text(result.Temp);
+              $("#timeLabel").text(result.time);
+              
+              // The location of Uluru
+              var uluru = {lat: result.lat, lng: result.lon};
+              var marker = new google.maps.Marker({
+                  position: uluru, 
+                  map: map,
+                  title: "Airpi",
+                  draggable: true,
+                  animation: google.maps.Animation.DROP
+              });            
+            });
+        }});        
+      }
 </script>
 <head>
 	<title>Air Quality Sensor Database</title>
