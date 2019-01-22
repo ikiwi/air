@@ -20,10 +20,10 @@ while (1):
 		if not ccs.readData():
 			print "CO2", ccs.geteCO2(),"	" , "TVOC", ccs.getTVOC()," 	", "Temp", temp, "	"
 			print period
-			result = firebase.put('/temp/' + current_timstamp ,name='time',data = period)
-			result = firebase.put('/temp/' + current_timstamp ,name='CO2', data = ccs.geteCO2())
-			result = firebase.put('/temp/' + current_timstamp ,name='TVOC',data = ccs.getTVOC())
-			result = firebase.put('/temp/' + current_timstamp ,name='Temp',data = temp)
+			result = firebase.put('/CCS811/' + current_timstamp ,name='time',data = period)
+			result = firebase.put('/CCS811/' + current_timstamp ,name='CO2', data = ccs.geteCO2())
+			result = firebase.put('/CCS811/' + current_timstamp ,name='TVOC',data = ccs.getTVOC())
+			result = firebase.put('/CCS811/' + current_timstamp ,name='Temp',data = temp)
 		else:
 			print ("ERROR!")
 			while(1):
