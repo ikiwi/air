@@ -22,7 +22,7 @@ var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 32.7157, lng: 117.1611},
-          zoom: 20
+          zoom: 12
         });
 
         $.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
