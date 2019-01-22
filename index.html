@@ -1,5 +1,5 @@
 <html>
-<script>
+	<script>
   // Initialize Firebase
 var map;
 
@@ -41,19 +41,21 @@ var map;
         }});        
       }
 </script>
-<head>
-	<title>Air Quality Sensor Database</title>
+    <head>
+	
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-<h1> Air Quality Sensor Database </h1>
-
-	<h2>CO2:</h2>
-	<h2>TVOC:</h2>
-	<h2>Temperature:</h2>
-	<h2>Time Recoreded:</h2>
+	    
+    </head>
+	
+    <body>
+    <h1> Air Quality Sensor Database </h1>
+    <title>Air Quality Sensor Database</title>
+    <p>CO2: <label id="co2Label"></label> </p>
+    <p>TVOC: <label id="tvocLabel"></label> </p>
+    <p>Temp: <label id="tempLabel"></label> </p>
+    <p>Time: <label id="timeLabel"></label> </p>
+    <div id="map"></div>
 
 </body>
 
