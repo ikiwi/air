@@ -1,9 +1,5 @@
 body{
 	font-family: Arial;
 	Color:White;
-	background-image: url("background.jpg");
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-position:Center center;
-	background-size: cover;
+	
 	}
