@@ -4,6 +4,7 @@ import Adafruit_GPIO.SPI as SPI
 import spidev
 from firebase import firebase
 
+current_timstamp = str(int(time.time()))
 
 spi = spidev.SpiDev()
 spi.open(0,0)
@@ -15,7 +16,7 @@ def getvalue (channel):
 	op = spi.xfer([1,(8+channel) << 4, 0])
 	out = ((op[1]&3) << 8)  + op[2]
 	print ("output: {0:4d} ".format(out))
-	result = firebase.put('/UV/',name='UV',data = "output:{0:4d}".format(out))
+	result = firebase.put('/S12SD/'+current_timstamp,name='UV',data = "output:{0:4d}".format(out))
 	time.sleep (1)
 
 while True:
