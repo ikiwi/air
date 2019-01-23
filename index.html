@@ -10,10 +10,13 @@
     <body>
     <h1> Air Quality Sensor Database </h1>
     <title>Air Quality Sensor Database</title>
-    <p>CO2: <label id="co2Label"></label> </p>
-    <p>TVOC: <label id="tvocLabel"></label> </p>
-    <p>Temp: <label id="tempLabel"></label> </p>
-    <p>Time: <label id="timeLabel"></label> </p>
+    <p>CO2:		<label id="CO2_Label"></label>			</p>
+    <p>TVOC:		<label id="TVOC_Label"></label>			</p>
+    <p>Temp:		<label id="Temperature_Label"></label>		</p>
+    <p>Time:		<label id="Time_Label"></label>			</p>
+    <p>S12SD_Raw:	<label id="S12SD_Raw_Lable"></label>		</p>
+    <p>S12SD_Volts: 	<label id="S12SD_Volts_Label"></label>		</p>
+
     <div id="map"></div>
 <script>
 	var map;
@@ -32,15 +35,21 @@
 
               console.log(result.CO2);
               console.log(result.TVOC);
-              console.log(result.Temp);
-              console.log(result.time);
+              console.log(result.Temperature);
+              console.log(result.Time);
+	      console.log(result.S12SD_Raw);
+	      console.log(result.S12SD_Volts):
               //console.log(result.lat);
               //console.log(result.lon);
 
-              $("#co2Label").text(result.CO2);
-              $("#tvocLabel").text(result.TVOC);
-              $("#tempLabel").text(result.Temp);
-              $("#timeLabel").text(result.time);
+              $("#CO2_Label").text(result.CO2);
+              $("#TVOC_Label").text(result.TVOC);
+              $("#Temperature_Label").text(result.Temperature);
+              $("#Time_Label").text(result.Time);
+	      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+              $("#S12SD_Volts_Label").text(result.S12SD_Volts);
+
+		    
               
               // The location of Uluru
               //var uluru = {lat: result.lat, lng: result.lon};
