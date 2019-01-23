@@ -2,6 +2,17 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<style>
+      		#map {
+        		height: 100%;
+      		     }
+      		html, body {
+        		height: 100%;
+        		margin: 0;
+        		padding: 0;
+      			}
+    	</style>
 </head>
 	
 <body>
@@ -19,7 +30,7 @@
 		function initMap() {
         		map = new google.maps.Map(document.getElementById('map'), {
           		center: {lat: 32.7157, lng: 117.1611},
-         		zoom: 12
+         		zoom: 9
        			});
 
         		$.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
@@ -61,7 +72,7 @@
      		 }
 	</script>
 	
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwxvMl3ZCLS87abguRfb-cyfwuyUE4OVM&callback=initMap"async defer>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCe6uaPZdK6afLPrPP8Qci19M_mcNi4hk&callback=initMap"async defer>
 </script>
 
 </body>
