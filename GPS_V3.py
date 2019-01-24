@@ -1,7 +1,7 @@
 import adafruit_gps
 
 import serial
-uart = serial.Serial("/dev/ttyAMA0", baudrate=9600, timeout=3000)#ttyS0
+uart = serial.Serial("/dev/ttyS0", baudrate=9600, timeout=3000)#ttyS0
 gps = adafruit_gps.GPS(uart)
 gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
 gps.send_command(b'PMTK220,1000')
