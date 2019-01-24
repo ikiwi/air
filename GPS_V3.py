@@ -1,14 +1,8 @@
-
-import busio
 import adafruit_gps
-import board
-
-RX = board.RX
-TX = board.TX
 
 import serial
 uart = serial.Serial("/dev/ttyAMA0", baudrate=9600, timeout=3000)#ttyS0
-gps = adafruit_gps.GPS(uart, debug=False)
+gps = adafruit_gps.GPS(uart)
 gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
 gps.send_command(b'PMTK220,1000')
 last_print = time.monotonic()
