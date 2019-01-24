@@ -32,8 +32,8 @@ while True:
 		temp = ccs.calculateTemperature()
 		period = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
 		if not ccs.readData():
-			print "CO2", ccs.geteCO2(),"	" , "TVOC", ccs.getTVOC()," 	", "Temp", temp, "	"
-			print period
+			print ("CO2", ccs.geteCO2(),"	" , "TVOC", ccs.getTVOC()," 	", "Temp", temp, "	")
+			print (period)
 			result = firebase.put('/data/' + current_timstamp ,name='Time',data = period)
 			result = firebase.put('/data/' + current_timstamp ,name='CO2', data = ccs.geteCO2())
 			result = firebase.put('/data/' + current_timstamp ,name='TVOC',data = ccs.getTVOC())
