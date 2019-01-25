@@ -24,6 +24,7 @@
     	<p>Time:<label id="Time_Label"> </label></p>
     	<p>S12SD Raw:<label id="S12SD_Raw_Lable"> </label></p>
     	<p>S12SD Volts:<label id="S12SD_Volts_Label"></label></p>
+	<p>Sound Peak-to-Peak Values:<label id="peak_to_peak_Label"></label></p>
 	<p>Sound Values:<label id="Sound_Values_Label"></label></p>
 	<div id="map"></div>
 	<script>
@@ -50,7 +51,8 @@
               			console.log(result.Time);
 	      			console.log(result.S12SD_Raw);
 	     			console.log(result.S12SD_Volts);
-				console.log(result.Sound_Values);
+				console.log(result.peak_to_peak);
+				console.log(result.Sound_Volts);
               //console.log(result.lat);
               //console.log(result.lon);
 
@@ -60,7 +62,9 @@
               			$("#Time_Label").text(result.Time);
 	      			$("#S12SD_Raw_Lable").text(result.S12SD_Raw);
               			$("#S12SD_Volts_Label").text(result.S12SD_Volts);
-				$("Sound_Values").text(result.Sound_Values);
+				$("peak_to_peak_Label").text(result.peak_to_peak);
+				$("Sound_Values_Label").text(result.Sound_Values);
+				
 
 		    		var data = [];
 		      		data.push(index);
