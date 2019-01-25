@@ -22,8 +22,9 @@
     	<p>TVOC:<label id="TVOC_Label"> </label></p>
     	<p>Temperature:<label id="Temperature_Label"> </label></p>
     	<p>Time:<label id="Time_Label"> </label></p>
-    	<p>S12SD_Raw:<label id="S12SD_Raw_Lable"> </label></p>
-    	<p>S12SD_Volts:<label id="S12SD_Volts_Label"></label></p>
+    	<p>S12SD Raw:<label id="S12SD_Raw_Lable"> </label></p>
+    	<p>S12SD Volts:<label id="S12SD_Volts_Label"></label></p>
+	<p>Sound Values:<label id="Sound_Values_Label"></label></p>
 	<div id="map"></div>
 	<script>
 		var map;
@@ -36,8 +37,8 @@
         		$.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
             	// console.log(result1);
             	// jquery
-				var alldata=[];
-				var index=1;
+				var allData = [];
+				var index = 1;
 				
             			$.each(result1, function(key, value) {
 
@@ -49,6 +50,7 @@
               			console.log(result.Time);
 	      			console.log(result.S12SD_Raw);
 	     			console.log(result.S12SD_Volts);
+				console.log(result.Sound_Values);
               //console.log(result.lat);
               //console.log(result.lon);
 
@@ -58,6 +60,7 @@
               			$("#Time_Label").text(result.Time);
 	      			$("#S12SD_Raw_Lable").text(result.S12SD_Raw);
               			$("#S12SD_Volts_Label").text(result.S12SD_Volts);
+				$("Sound_Values").text(result.Sound_Values);
 
 		    		var data = [];
 		      		data.push(index);
