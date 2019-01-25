@@ -34,8 +34,11 @@
        			});
 
         		$.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
-            			console.log(result1);
+            	// console.log(result1);
             	// jquery
+				var alldata=[];
+				var index=1;
+				
             			$.each(result1, function(key, value) {
 
               			var result = value;
@@ -56,7 +59,11 @@
 	      			$("#S12SD_Raw_Lable").text(result.S12SD_Raw);
               			$("#S12SD_Volts_Label").text(result.S12SD_Volts);
 
-		    
+		    		var data = [];
+		      		data.push(index);
+              			data.push(result.CO2);
+             			index++;
+              			allData.push(data);
               
               // The location of Uluru
               //var uluru = {lat: result.lat, lng: result.lon};
