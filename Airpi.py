@@ -1,3 +1,4 @@
+#Firebase Connection
 from firebase import firebase
 firebase = firebase.FirebaseApplication('https://airquality-8059.firebaseio.com/',None)
 
@@ -12,10 +13,11 @@ while not ccs.available():
 temp = ccs.calculateTemperature()
 ccs.tempOffset = temp - 25.0
 
-#GUVA-S12SD
+#MCP3008 Channels
 import spidev
 spi = spidev.SpiDev()
 spi.open(0,0)
+
 def readadc(adcnum):
         if adcnum > 7 or adcnum < 0:
             return -1
@@ -25,8 +27,10 @@ def readadc(adcnum):
 
 #Loop
 while True:
+	
         #Define Time-stamp
 	current_timstamp = str(int(time.time()))	
+	
 	#CCS811
 	if ccs.available():
 		temp = ccs.calculateTemperature()
@@ -42,12 +46,18 @@ while True:
 			print ("ERROR!")
 			while(1):
 				 pass
+				
 	#GUVA-S12SD
 	S12SD_Raw = readadc(0)
 	S12SD_Volts = (S12SD_Raw * 3.3) / 1024
 	print ("%4d/1023 => %5.3f V" % (S12SD_Raw, S12SD_Volts))
 	result = firebase.put('/data/'+current_timstamp,name='S12SD_Raw',data = S12SD_Raw)
 	result = firebase.put('/data/'+current_timstamp,name='S12SD_Volts',data = S12SD_Volts)
+	
         #Max4466
+	Sound_Values = readadc(1)
+	print (Sound_Values)
+	result = firebase.put('/data/'+current_timestamp,name='Sound_Values',data = Sound_Values)
+	
         #time interval 
-	time.sleep(10)
+	time.sleep(5)
