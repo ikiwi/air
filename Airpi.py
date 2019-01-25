@@ -18,6 +18,12 @@ import spidev
 spi = spidev.SpiDev()
 spi.open(0,0)
 
+#Max4466 Setup
+int peak_to_peak
+int signalmax
+signalmin = 1024
+
+
 def readadc(adcnum):
         if adcnum > 7 or adcnum < 0:
             return -1
@@ -46,7 +52,7 @@ while True:
 			print ("ERROR!")
 			while(1):
 				 pass
-				
+			
 	#GUVA-S12SD
 	S12SD_Raw = readadc(0)
 	S12SD_Volts = (S12SD_Raw * 3.3) / 1024
@@ -56,8 +62,17 @@ while True:
 	
         #Max4466
 	Sound_Values = readadc(1)
-	print (Sound_Values)
-	result = firebase.put('/data/'+current_timestamp,name='Sound_Values',data = Sound_Values)
+	if Sound_Values < 1024:
+		if Sound_Values>signalmax:
+			signalmax = Sound_Values
+		elif Sound_ValuesM<signalmin:
+			signalmin = Sound_Values
+	peak_to_peak = signalmax - signalmin
+	Sound_Volts = (peak_to_Peak * 5.0) / 1024
+	print (peak_to_peak)
+	result = firebase.put('/data/'+current_timestamp,name='peak_to_peak',data = peak_to_peak)
+	print (Sound_Volts)
+	result = firebase.put('/data/'+current_timestamp,name='Sound_Volts',data = Sound_Volts)
 	
         #time interval 
 	time.sleep(5)
