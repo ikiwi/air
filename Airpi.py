@@ -80,7 +80,7 @@ while True:
 	#Mics 5524
 	Gas = readadc(1)
 	print( "Gas Level:", Gas)
-	result = firebase.put('/data/' + current_timstamp ,name='Gas Level',data = Gas)
+	result = firebase.put('/data/' + current_timstamp ,name='Gas_Level',data = Gas)
 
 	
         #Max4466
@@ -100,7 +100,7 @@ while True:
 	#GA1A12S202
 	Light = readadc(3)
 	print("Light Level:", readadc(3))
-	result = firebase.put('/data/' + current_timstamp ,name='Light Level',data = Light)
+	result = firebase.put('/data/' + current_timstamp ,name='Light_Level',data = Light)
 
 	
 	#DHT22
@@ -109,7 +109,7 @@ while True:
     		print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
 	else:
     		print('Failed to get reading. Try again!')
-	result = firebase.put('/data/' + current_timstamp ,name='DHT Temperature',data = temperature)
+	result = firebase.put('/data/' + current_timstamp ,name='DHT_Temperature',data = temperature)
 	result = firebase.put('/data/' + current_timstamp ,name='Humidity',data = humidity)
 
 	#GPS
