@@ -30,6 +30,13 @@
     	<p>S12SD Volts:<label id="S12SD_Volts_Label"></label></p>
 	<p>Sound Peak-to-Peak Values:<label id="peak_to_peak_Label"></label></p>
 	<p>Sound Values:<label id="Sound_Values_Label"></label></p>
+	<p>Gas Level:<label id="Gas_Level_Label"></label></p>
+	<p>Light Level:<label id="Light_Level_Label"></label></p>
+	<p>DHT Temperature:<label id="DHT_Temperature_Label"></label></p>
+	<p>Humidity:<label id="Humidity_Label"></label></p>
+	<p>Latitude:<label id="Latitude_Label"></label></p>
+	<p>Longitude:<label id="Longitude_Label"></label></p>
+	
 	<div id="map"></div>
 	<script>
 		var map;
@@ -57,8 +64,12 @@
 	     			console.log(result.S12SD_Volts);
 				console.log(result.peak_to_peak);
 				console.log(result.Sound_Volts);
-              //console.log(result.lat);
-              //console.log(result.lon);
+              			console.log(result.lattitude);
+             			console.log(result.longitude);             			
+				console.log(result.Light_Level);
+				console.log(result.Gas_Level);
+				console.log(result.DHT_Temperature);
+             			console.log(result.longitude);
 
               			$("#CO2_Label").text(result.CO2);
               			$("#TVOC_Label").text(result.TVOC);
@@ -66,9 +77,14 @@
               			$("#Time_Label").text(result.Time);
 	      			$("#S12SD_Raw_Lable").text(result.S12SD_Raw);
               			$("#S12SD_Volts_Label").text(result.S12SD_Volts);
-				$("peak_to_peak_Label").text(result.peak_to_peak);
-				$("Sound_Values_Label").text(result.Sound_Values);
-				
+				$("#peak_to_peak_Label").text(result.peak_to_peak);
+				$("#Sound_Values_Label").text(result.Sound_Values);
+				$("#Gas_Level_Label").text(result.Gas_Level);
+				$("#Light_Level_Label").text(result.Light_Level);
+				$("#DHT_Temperature_Label").text(result.DHT_Temperature);
+				$("#Humidity_Label").text(result.Humidity);
+				$("#Latitude_Label").text(result.Latitude);
+				$("#Longitude_Label").text(result.Longitude);
 
 		    		var data = [];
 		      		data.push(index);
@@ -76,15 +92,15 @@
              			index++;
               			allData.push(data);
               
-              // The location of Uluru
-              //var uluru = {lat: result.lat, lng: result.lon};
-              //var marker = new google.maps.Marker({
-                  //position: uluru, 
-                  //map: map,
-                  //title: "Airpi",
-                  //draggable: true,
-                  //animation: google.maps.Animation.DROP
-              				//});            
+              			// The location of Airpi
+              			var uluru = {lat: result.lat, lng: result.lon};
+              			var marker = new google.maps.Marker({
+                  		position: uluru, 
+                  		map: map,
+                  		title: "Airpi",
+                  		draggable: true,
+                  		animation: google.maps.Animation.DROP
+              				});            
             			});
         		}});        
      		 }
