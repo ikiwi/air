@@ -63,7 +63,7 @@
 	      			console.log(result.S12SD_Raw);
 	     			console.log(result.S12SD_Volts);
 				console.log(result.peak_to_peak);
-				console.log(result.Sound_Volts);
+				console.log(result.Sound_Values);
               			console.log(result.lattitude);
              			console.log(result.longitude);             			
 				console.log(result.Light_Level);
@@ -93,9 +93,9 @@
               			allData.push(data);
               
               			// The location of Airpi
-              			var uluru = {lat: result.lattitude, lng: result.longitude};
+              			var air = {lat: result.lattitude, lng: result.longitude};
               			var marker = new google.maps.Marker({
-                  		position: uluru, 
+                  		position: air, 
                   		map: map,
                   		title: "Airpi",
                   		draggable: true,
