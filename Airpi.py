@@ -33,7 +33,7 @@ signalmin = 1024
 
 #DHT22 Setup
 import Adafruit_DHT
-sensor = Adafruit.DHT.DHT22
+sensor = Adafruit_DHT.DHT22
 pin = '17'
 
 #GPS Setup
@@ -114,31 +114,30 @@ while True:
 
 	#GPS
 	gps.update()
-    	current = time.monotonic()
-    	if current - last_print >= 1.0:
-        last_print = current
-        if not gps.has_fix:
-            continue
-        print('Latitude: {0:.6f} degrees'.format(gps.latitude))
-        print('Longitude: {0:.6f} degrees'.format(gps.longitude))
+	current = time.monotonic()
+	if current - last_print >= 1.0:
+		last_print = current
+	if not gps.has_fix:
+		continue
+	print('Latitude: {0:.6f} degrees'.format(gps.latitude))
+	print('Longitude: {0:.6f} degrees'.format(gps.longitude))
 	
 	result = firebase.put('/data/' + current_timstamp ,name='Latitude',data = gps.latitude)
 	result = firebase.put('/data/' + current_timstamp ,name='Longitude',data = gps.longitude)
 
-	
-        print('Fix quality: {}'.format(gps.fix_quality))
-        if gps.satellites is not None:
-            print('# satellites: {}'.format(gps.satellites))
-        if gps.altitude_m is not None:
-            print('Altitude: {} meters'.format(gps.altitude_m))
-        if gps.track_angle_deg is not None:
-            print('Speed: {} knots'.format(gps.speed_knots))
-        if gps.track_angle_deg is not None:
-            print('Track angle: {} degrees'.format(gps.track_angle_deg))
-        if gps.horizontal_dilution is not None:
-            print('Horizontal dilution: {}'.format(gps.horizontal_dilution))
-        if gps.height_geoid is not None:
-            print('Height geo ID: {} meters'.format(gps.height_geoid))
+	print('Fix quality: {}'.format(gps.fix_quality))
+	if gps.satellites is not None:
+		print('# satellites: {}'.format(gps.satellites))
+	if gps.altitude_m is not None:
+		print('Altitude: {} meters'.format(gps.altitude_m))
+	if gps.track_angle_deg is not None:
+		print('Speed: {} knots'.format(gps.speed_knots))
+	if gps.track_angle_deg is not None:
+		print('Track angle: {} degrees'.format(gps.track_angle_deg))
+	if gps.horizontal_dilution is not None:
+		print('Horizontal dilution: {}'.format(gps.horizontal_dilution))
+	if gps.height_geoid is not None:
+		print('Height geo ID: {} meters'.format(gps.height_geoid))
 	
         #time interval 
 	time.sleep(5)
