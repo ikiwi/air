@@ -27,8 +27,8 @@ def readadc(adcnum):
         return adcout
 
 #Max4466 Setup
-int peak_to_peak
-int signalmax
+peak_to_peak=0
+signalmax=0
 signalmin = 1024
 
 #DHT22 Setup
