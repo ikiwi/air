@@ -98,9 +98,9 @@ while True:
 	peak_to_peak = signalmax - signalmin
 	Sound_Volts = (peak_to_peak * 5.0) / 1024
 	print (peak_to_peak)
-	result = firebase.put('/data/'+current_timestamp,name='peak_to_peak',data = peak_to_peak)
+	result = firebase.put('/data/'+current_timstamp,name='peak_to_peak',data = peak_to_peak)
 	print (Sound_Volts)
-	result = firebase.put('/data/'+current_timestamp,name='Sound_Volts',data = Sound_Volts)
+	result = firebase.put('/data/'+current_timstamp,name='Sound_Volts',data = Sound_Volts)
 	
 	#GA1A12S202
 	Light = readadc(3)
