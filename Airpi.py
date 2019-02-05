@@ -123,6 +123,7 @@ while True:
 	if current - last_print >= 1.0:
 		last_print = current
 	if not gps.has_fix:
+		print("fixing")
 		continue
 	print('Latitude: {0:.6f} degrees'.format(gps.latitude))
 	print('Longitude: {0:.6f} degrees'.format(gps.longitude))
