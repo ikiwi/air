@@ -47,6 +47,11 @@ gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
 gps.send_command(b'PMTK220,1000')
 last_print = time.monotonic()
 
+#BME280 Setup
+from Adafruit_BME280 import *
+
+BME = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
+
 
 #Loop
 while True:
@@ -138,6 +143,19 @@ while True:
 		print('Horizontal dilution: {}'.format(gps.horizontal_dilution))
 	if gps.height_geoid is not None:
 		print('Height geo ID: {} meters'.format(gps.height_geoid))
+	
+	#BME280
+	bme_degrees = BME.read_temperature()
+	pascals = BME.read_pressure()
+	hectopascals = pascals / 100
+	bme_humidity = BME.read_humidity()
+	
+	print("BME Temp:",bme_degrees)
+	print("Pressure:",hectopascals)
+	print("BME Humidity:",bme_humidity)
+	result = firebase.put('/data/' + current_timstamp ,name='BME_Temp',data = bme_degrees)
+	result = firebase.put('/data/' + current_timstamp ,name='Pressure',data = hectopascals)
+	result = firebase.put('/data/' + current_timstamp ,name='BME_Humidity',data = bme_humidity)
 	
         #time interval 
 	time.sleep(5)
