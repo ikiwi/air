@@ -159,4 +159,4 @@ while True:
 	result = firebase.put('/data/' + current_timstamp ,name='BME_Humidity',data = bme_humidity)
 	
         #time interval 
-	time.sleep(5)
+	time.sleep(60)
