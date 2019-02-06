@@ -20,29 +20,69 @@
 </head>
 	
 <body>
-    	<h1> Air Quality Sensor Database </h1>
-    	<title>Air Quality Sensor Database</title>
-    	<p>CO2:<label id="CO2_Label"> </label></p>
-    	<p>TVOC:<label id="TVOC_Label"> </label></p>
-    	<p>Temperature:<label id="Temperature_Label"> </label></p>
-    	<p>Time:<label id="Time_Label"> </label></p>
-    	<p>S12SD Raw:<label id="S12SD_Raw_Lable"> </label></p>
-    	<p>S12SD Volts:<label id="S12SD_Volts_Label"></label></p>
-	<p>Sound Peak-to-Peak Values:<label id="peak_to_peak_Label"></label></p>
-	<p>Sound Values:<label id="Sound_Values_Label"></label></p>
-	<p>Gas Level:<label id="Gas_Level_Label"></label></p>
-	<p>Light Level:<label id="Light_Level_Label"></label></p>
-	<p>DHT Temperature:<label id="DHT_Temperature_Label"></label></p>
-	<p>Humidity:<label id="Humidity_Label"></label></p>
-	<p>Latitude:<label id="Latitude_Label"></label></p>
-	<p>Longitude:<label id="Longitude_Label"></label></p>
-	<p>BME temperature:<label id="BME_Temp_Label"></label></p>
-	<p>BME Humidity:<label id="BME_Humidity_Label"></label></p>
-	<p>Pressure:<label id="Pressure_Label"></label></p>
-	
+  <table>
+    <tr>
+      <td>
+      	<h1> Air Quality Sensor Database </h1>
+      	<title>Air Quality Sensor Database</title>
+      	<p>CO2:<label id="CO2_Label"> </label></p>
+      	<p>TVOC:<label id="TVOC_Label"> </label></p>
+      	<p>Temperature:<label id="Temperature_Label"> </label></p>
+      	<p>Time:<label id="Time_Label"> </label></p>
+      	<p>S12SD Raw:<label id="S12SD_Raw_Lable"> </label></p>
+      	<p>S12SD Volts:<label id="S12SD_Volts_Label"></label></p>
+      	<p>Sound Peak-to-Peak Values:<label id="peak_to_peak_Label"></label></p>
+      	<p>Sound Values:<label id="Sound_Values_Label"></label></p>
+      	<p>Gas Level:<label id="Gas_Level_Label"></label></p>
+      	<p>Light Level:<label id="Light_Level_Label"></label></p>
+      	<p>DHT Temperature:<label id="DHT_Temperature_Label"></label></p>
+      	<p>Humidity:<label id="Humidity_Label"></label></p>
+      	<p>Latitude:<label id="Latitude_Label"></label></p>
+      	<p>Longitude:<label id="Longitude_Label"></label></p>
+      	<p>BME temperature:<label id="BME_Temp_Label"></label></p>
+		<p>BME Humidity:<label id="BME_Humidity_Label"></label></p>
+		<p>Pressure:<label id="Pressure_Label"></label></p>
+      </td>
+      <td>
+        <table id="myTable">
+          <tbody>
+            <tr>Time Table</tr>      
+          </tbody>
+        </table>
+      </td>
+    </tr>
+	</table>
+
+  
+
 	<div id="map"></div>
 	<script>
 		var map;
+    var timeResultMap = {};
+
+    function updateValue(timedata) {
+                      var result = timeResultMap[timedata];
+                      $("#CO2_Label").text(result.CO2);
+                      $("#TVOC_Label").text(result.TVOC);
+                      $("#Temperature_Label").text(result.Temperature);
+                      $("#Time_Label").text(result.Time);
+                      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+                      $("#S12SD_Volts_Label").text(result.S12SD_Volts);
+                      $("#peak_to_peak_Label").text(result.peak_to_peak);
+                      $("#Sound_Values_Label").text(result.Sound_Values);
+                      $("#Gas_Level_Label").text(result.Gas_Level);
+                      $("#Light_Level_Label").text(result.Light_Level);
+                      $("#DHT_Temperature_Label").text(result.DHT_Temperature);
+                      $("#Humidity_Label").text(result.Humidity);
+                      $("#Latitude_Label").text(result.Latitude);
+                      $("#Longitude_Label").text(result.Longitude);
+                      $("#BME_Temp_Label").text(result.BME_Temp);
+				$("#BME_Humidity_Label").text(result.BME_Humidity);
+				$("#Pressure_Label").text(result.Pressure);
+
+    }   
+
+
 		function initMap() {
         		map = new google.maps.Map(document.getElementById('map'), {
           		center: {lat: 32.715736, lng: -117.1611},
@@ -52,8 +92,9 @@
         		$.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
             	// console.log(result1);
             	// jquery
-				var allData = [];
-				var index = 1;
+              var locHistoryMap = {};
+      				var allData = [];
+      				var index = 1;
 				
             			$.each(result1, function(key, value) {
 
@@ -63,68 +104,100 @@
               			console.log(result.TVOC);
               			console.log(result.Temperature);
               			console.log(result.Time);
-	      			console.log(result.S12SD_Raw);
-	     			console.log(result.S12SD_Volts);
-				console.log(result.peak_to_peak);
-				console.log(result.Sound_Values);
-              			console.log(result.Lattitude);
-             			console.log(result.Longitude);             			
-				console.log(result.Light_Level);
-				console.log(result.Gas_Level);
-				console.log(result.DHT_Temperature);
-				console.log(result.Humidity);
-				console.log(result.BME_Humidity);
-				console.log(result.BME_Temp);
-				console.log(result.Pressure);
+      	      			console.log(result.S12SD_Raw);
+      	     			  console.log(result.S12SD_Volts);
+            				console.log(result.peak_to_peak);
+            				console.log(result.Sound_Values);
+                    console.log(result.lattitude);
+                   	console.log(result.longitude);             			
+      				      console.log(result.Light_Level);
+            				console.log(result.Gas_Level);
+            				console.log(result.DHT_Temperature);
+             			  console.log(result.longitude);
+             			  console.log(result.BME_Humidity);
+						console.log(result.BME_Temp);
+						console.log(result.Pressure);
 
               			$("#CO2_Label").text(result.CO2);
               			$("#TVOC_Label").text(result.TVOC);
               			$("#Temperature_Label").text(result.Temperature);
               			$("#Time_Label").text(result.Time);
-	      			$("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+	      			      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
               			$("#S12SD_Volts_Label").text(result.S12SD_Volts);
-				$("#peak_to_peak_Label").text(result.peak_to_peak);
-				$("#Sound_Values_Label").text(result.Sound_Values);
-				$("#Gas_Level_Label").text(result.Gas_Level);
-				$("#Light_Level_Label").text(result.Light_Level);
-				$("#DHT_Temperature_Label").text(result.DHT_Temperature);
-				$("#Humidity_Label").text(result.Humidity);
-				$("#Latitude_Label").text(result.Latitude);
-				$("#Longitude_Label").text(result.Longitude);
-				$("#BME_Temp_Label").text(result.BME_Temp);
+            				$("#peak_to_peak_Label").text(result.peak_to_peak);
+            				$("#Sound_Values_Label").text(result.Sound_Values);
+            				$("#Gas_Level_Label").text(result.Gas_Level);
+            				$("#Light_Level_Label").text(result.Light_Level);
+            				$("#DHT_Temperature_Label").text(result.DHT_Temperature);
+            				$("#Humidity_Label").text(result.Humidity);
+            				$("#Latitude_Label").text(result.Latitude);
+            				$("#Longitude_Label").text(result.Longitude);
+            				$("#BME_Temp_Label").text(result.BME_Temp);
 				$("#BME_Humidity_Label").text(result.BME_Humidity);
 				$("#Pressure_Label").text(result.Pressure);
-
 
 		    		var data = [];
 		      		data.push(index);
               			data.push(result.CO2);
-             			index++;
+             			  index++;
               			allData.push(data);
               
-              			// The location of Airpi
+              			// The location of Airpi                    
               			var air = {lat: result.Latitude, lng: result.Longitude};
+                    console.log(air);
+
+                    if (result.Latitude != null && result.Longitude != null) {
+                      var key = result.Latitude + "," + result.Longitude;
+                      var historyList = locHistoryMap[key];
+                      if (historyList == null) {
+                        historyList = [];                        
+                      }
+                      historyList.push(result);
+                      locHistoryMap[key] = historyList;
+
+                      timeResultMap[result.Time] = result;
+                    }
+
               			var marker = new google.maps.Marker({
                   		position: air, 
                   		map: map,
                   		title: "Airpi",
                   		draggable: true,
                   		animation: google.maps.Animation.DROP
-              				});
-				marker.addListener('click',function(){
-					map.setzoom(7);
-					map.setCenter(marker.getPostion());
-					
-					var key = result.Latitude + "," + result.Longitude;
-					var historyData = locHistoryMap[key];
-					for (var i =0; i < historyData.length; i++){
-						console.log("History Map:" + key + ": " + i + " " + historyData[i].Time);
-					$("#myTable").last().append("<tr><td><button onclick=updateValue("'+ historyData[i].Time
-					+"')>'+ historyData[i].Time + "</button></td></tr>);
-					}
-					
-					
-						   
+              				}); 
+
+
+                    marker.addListener('click', function() {
+                      map.setZoom(8);
+                      map.setCenter(marker.getPosition());
+
+                      var key = result.Latitude + "," + result.Longitude;
+                      var historyData = locHistoryMap[key];
+                      $("#myTable").empty()
+                      for (var i = 0; i < historyData.length; i++) {
+                        console.log("History Map: " + key + ": " + i + " " + historyData[i].Time);                        
+                        $("#myTable").last().append('<tr><td><button onclick="updateValue(\'' + historyData[i].Time + '\')">' + historyData[i].Time + '</button></td></tr>');
+                      }
+
+                      $("#CO2_Label").text(result.CO2);
+                      $("#TVOC_Label").text(result.TVOC);
+                      $("#Temperature_Label").text(result.Temperature);
+                      $("#Time_Label").text(result.Time);
+                      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+                      $("#S12SD_Volts_Label").text(result.S12SD_Volts);
+                      $("#peak_to_peak_Label").text(result.peak_to_peak);
+                      $("#Sound_Values_Label").text(result.Sound_Values);
+                      $("#Gas_Level_Label").text(result.Gas_Level);
+                      $("#Light_Level_Label").text(result.Light_Level);
+                      $("#DHT_Temperature_Label").text(result.DHT_Temperature);
+                      $("#Humidity_Label").text(result.Humidity);
+                      $("#Latitude_Label").text(result.Latitude);
+                      $("#Longitude_Label").text(result.Longitude);
+                      $("#BME_Temp_Label").text(result.BME_Temp);
+					  $("#BME_Humidity_Label").text(result.BME_Humidity);
+					  $("#Pressure_Label").text(result.Pressure);
+                    });
+
             			});
         		}});        
      		 }
