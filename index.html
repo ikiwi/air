@@ -110,7 +110,21 @@
                   		title: "Airpi",
                   		draggable: true,
                   		animation: google.maps.Animation.DROP
-              				});            
+              				});
+				marker.addListener('click',function(){
+					map.setzoom(7);
+					map.setCenter(marker.getPostion());
+					
+					var key = result.Latitude + "," + result.Longitude;
+					var historyData = locHistoryMap[key];
+					for (var i =0; i < historyData.length; i++){
+						console.log("History Map:" + key + ": " + i + " " + historyData[i].Time);
+					$("#myTable").last().append("<tr><td><button onclick=updateValue("'+ historyData[i].Time
+					+"')>'+ historyData[i].Time + "</button></td></tr>);
+					}
+					
+					
+						   
             			});
         		}});        
      		 }
