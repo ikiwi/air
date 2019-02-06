@@ -36,6 +36,9 @@
 	<p>Humidity:<label id="Humidity_Label"></label></p>
 	<p>Latitude:<label id="Latitude_Label"></label></p>
 	<p>Longitude:<label id="Longitude_Label"></label></p>
+	<p>BME temperature:<label id="BME_Temp"></label></p>
+	<p>BME Humidity:<label id="BME_Humidity"></label></p>
+	<p>Pressure:<label id="Pressure"></label></p>
 	
 	<div id="map"></div>
 	<script>
@@ -70,6 +73,9 @@
 				console.log(result.Gas_Level);
 				console.log(result.DHT_Temperature);
 				console.log(result.Humidity);
+				console.log(result.BME_Humidity);
+				console.log(result.BME_Temp);
+				console.log(result.Pressure);
 
               			$("#CO2_Label").text(result.CO2);
               			$("#TVOC_Label").text(result.TVOC);
@@ -85,6 +91,10 @@
 				$("#Humidity_Label").text(result.Humidity);
 				$("#Latitude_Label").text(result.Latitude);
 				$("#Longitude_Label").text(result.Longitude);
+				$("#BME_Temp_Label").text(result.BME_Temp);
+				$("#BME_Humidity_Label").text(result.BME_Humidity);
+				$("#Pressure_Label").text(result.Pressure);
+
 
 		    		var data = [];
 		      		data.push(index);
