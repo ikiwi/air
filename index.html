@@ -36,9 +36,9 @@
 	<p>Humidity:<label id="Humidity_Label"></label></p>
 	<p>Latitude:<label id="Latitude_Label"></label></p>
 	<p>Longitude:<label id="Longitude_Label"></label></p>
-	<p>BME temperature:<label id="BME_Temp"></label></p>
-	<p>BME Humidity:<label id="BME_Humidity"></label></p>
-	<p>Pressure:<label id="Pressure"></label></p>
+	<p>BME temperature:<label id="BME_Temp_Label"></label></p>
+	<p>BME Humidity:<label id="BME_Humidity_Label"></label></p>
+	<p>Pressure:<label id="Pressure_Label"></label></p>
 	
 	<div id="map"></div>
 	<script>
@@ -103,7 +103,7 @@
               			allData.push(data);
               
               			// The location of Airpi
-              			var air = {lat: result.Lattitude, lng: result.Longitude};
+              			var air = {lat: result.Latitude, lng: result.Longitude};
               			var marker = new google.maps.Marker({
                   		position: air, 
                   		map: map,
