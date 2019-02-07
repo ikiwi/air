@@ -1,5 +1,6 @@
 <html>
 <head>
+	<title>Air Quality Sensor Database</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
@@ -8,56 +9,122 @@
   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
   crossorigin="anonymous"></script>
 	<style>
-      		#map {
-        		height: 70%;
-      		     }
-      		html, body {
-        		height: 100%;
-        		margin: 15;
-        		padding: 10;
-      			}
-    	</style>
+	table {
+  			font-family: arial, sans-serif;
+  			border-collapse: collapse;
+  			width: 40%;
+		    }
+
+	td, th {
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+			}
+
+    #map {
+            height: 100%;
+            width: 50%;
+      		}
+    html, body {
+        	height: 70%;
+        	margin: 15;
+        	padding: 10;
+      		}
+    </style>
+
 </head>
 	
 <body>
-  <table>
-    <tr>
-      <td>
-      	<h1> Air Quality Sensor Database </h1>
-      	<title>Air Quality Sensor Database</title>
-      	<p>CO2:<label id="CO2_Label"> </label></p>
-      	<p>TVOC:<label id="TVOC_Label"> </label></p>
-      	<p>Temperature:<label id="Temperature_Label"> </label></p>
-      	<p>Time:<label id="Time_Label"> </label></p>
-      	<p>S12SD Raw:<label id="S12SD_Raw_Lable"> </label></p>
-      	<p>S12SD Volts:<label id="S12SD_Volts_Label"></label></p>
-      	<p>Sound Peak-to-Peak Values:<label id="peak_to_peak_Label"></label></p>
-      	<p>Sound Values:<label id="Sound_Values_Label"></label></p>
-      	<p>Gas Level:<label id="Gas_Level_Label"></label></p>
-      	<p>Light Level:<label id="Light_Level_Label"></label></p>
-      	<p>DHT Temperature:<label id="DHT_Temperature_Label"></label></p>
-      	<p>Humidity:<label id="Humidity_Label"></label></p>
-      	<p>Latitude:<label id="Latitude_Label"></label></p>
-      	<p>Longitude:<label id="Longitude_Label"></label></p>
-      	<p>BME temperature:<label id="BME_Temp_Label"></label></p>
-		<p>BME Humidity:<label id="BME_Humidity_Label"></label></p>
-		<p>Pressure:<label id="Pressure_Label"></label></p>
-      </td>
-      <td>
+
+      	<select>
+      			<option value="time">time_amount</option>
+      	</select>
+
+      	<div> 
+      	<table style="width:40%">
+      	<tr>
+      		<th>Data Type</th>
+      		<th>Values</th>
+      	</tr>
+      	<tr>
+      		<td>CO2</td>
+      		<td><label id="CO2_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>TVOC</td>
+      		<td><label id="TVOC_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Temperature</td>
+      		<td><label id="Temperature_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>S12SD Raw</td>
+      		<td><label id="S12SD_Raw_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>S12SD Volts</td>
+      		<td><label id="S12SD_Volts_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Peak-to-Peak Volume</td>
+      		<td><label id="peak_to_peak_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Sound Volume</td>
+      		<td><label id="Sound_Values_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Gas Level</td>
+      		<td><label id="Gas_Level_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Light Level</td>
+      		<td><label id="Light_Level_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>DHT Temperature</td>
+      		<td><label id="DHT_Temperature_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>DHT Humidity</td>
+      		<td><label id="Humidity_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Latitude</td>
+      		<td><label id="Latitude_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Longitude</td>
+      		<td><label id="Longitude_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>BME temperature</td>
+      		<td><label id="BME_Temp_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>BME Humidity</td>
+      		<td><label id="BME_Humidity_Label"> </label></td>
+      	</tr>
+      	<tr>
+      		<td>Pressure</td>
+      		<td><label id="Pressure_Label"> </label></td>
+      	</tr>
+      </table>
         <table id="myTable">
           <tbody>
             <tr>Time Table</tr>      
           </tbody>
-        </table>
-      </td>
-    </tr>
-	</table>
+      </table>
+      </div>
 
-  
 
-	<div id="map"></div>
+
+		<div"id="map"></div>
+
+
 	<script>
-		var map;
+	var map;
     var timeResultMap = {};
 
     function updateValue(timedata) {
@@ -66,7 +133,7 @@
                       $("#TVOC_Label").text(result.TVOC);
                       $("#Temperature_Label").text(result.Temperature);
                       $("#Time_Label").text(result.Time);
-                      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+                      $("#S12SD_Raw_Label").text(result.S12SD_Raw);
                       $("#S12SD_Volts_Label").text(result.S12SD_Volts);
                       $("#peak_to_peak_Label").text(result.peak_to_peak);
                       $("#Sound_Values_Label").text(result.Sound_Values);
@@ -77,18 +144,19 @@
                       $("#Latitude_Label").text(result.Latitude);
                       $("#Longitude_Label").text(result.Longitude);
                       $("#BME_Temp_Label").text(result.BME_Temp);
-				$("#BME_Humidity_Label").text(result.BME_Humidity);
-				$("#Pressure_Label").text(result.Pressure);
+				              $("#BME_Humidity_Label").text(result.BME_Humidity);
+				              $("#Pressure_Label").text(result.Pressure);
 
     }   
 
-
+          
 		function initMap() {
+
         		map = new google.maps.Map(document.getElementById('map'), {
           		center: {lat: 32.715736, lng: -117.1611},
          		zoom: 9
        			});
-
+       			
         		$.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
             	// console.log(result1);
             	// jquery
@@ -107,7 +175,7 @@
       	      			console.log(result.S12SD_Raw);
       	     			  console.log(result.S12SD_Volts);
             				console.log(result.peak_to_peak);
-            				console.log(result.Sound_Values);
+            				console.log(result.Sound_Volts);
                     console.log(result.lattitude);
                    	console.log(result.longitude);             			
       				      console.log(result.Light_Level);
@@ -122,10 +190,10 @@
               			$("#TVOC_Label").text(result.TVOC);
               			$("#Temperature_Label").text(result.Temperature);
               			$("#Time_Label").text(result.Time);
-	      			      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+	      			      $("#S12SD_Raw_Label").text(result.S12SD_Raw);
               			$("#S12SD_Volts_Label").text(result.S12SD_Volts);
             				$("#peak_to_peak_Label").text(result.peak_to_peak);
-            				$("#Sound_Values_Label").text(result.Sound_Values);
+            				$("#Sound_Values_Label").text(result.Sound_Volts);
             				$("#Gas_Level_Label").text(result.Gas_Level);
             				$("#Light_Level_Label").text(result.Light_Level);
             				$("#DHT_Temperature_Label").text(result.DHT_Temperature);
@@ -183,10 +251,10 @@
                       $("#TVOC_Label").text(result.TVOC);
                       $("#Temperature_Label").text(result.Temperature);
                       $("#Time_Label").text(result.Time);
-                      $("#S12SD_Raw_Lable").text(result.S12SD_Raw);
+                      $("#S12SD_Raw_Label").text(result.S12SD_Raw);
                       $("#S12SD_Volts_Label").text(result.S12SD_Volts);
                       $("#peak_to_peak_Label").text(result.peak_to_peak);
-                      $("#Sound_Values_Label").text(result.Sound_Values);
+                      $("#Sound_Values_Label").text(result.Sound_Volts);
                       $("#Gas_Level_Label").text(result.Gas_Level);
                       $("#Light_Level_Label").text(result.Light_Level);
                       $("#DHT_Temperature_Label").text(result.DHT_Temperature);
