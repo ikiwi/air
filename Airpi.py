@@ -52,111 +52,107 @@ from Adafruit_BME280 import *
 
 BME = BME280(t_mode=BME280_OSAMPLE_8, p_mode=BME280_OSAMPLE_8, h_mode=BME280_OSAMPLE_8)
 
-
 #Loop
 while True:
-	
+
         #Define Time-stamp
-	current_timstamp = str(int(time.time()))	
-	
-	#CCS811
-	if ccs.available():
-		temp = ccs.calculateTemperature()
-		period = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
-		if not ccs.readData():
-			print ("CO2", ccs.geteCO2(),"	" , "TVOC", ccs.getTVOC()," 	", "Temp", temp, "	")
-			print (period)
-			result = firebase.put('/data/' + current_timstamp ,name='Time',data = period)
-			result = firebase.put('/data/' + current_timstamp ,name='CO2', data = ccs.geteCO2())
-			result = firebase.put('/data/' + current_timstamp ,name='TVOC',data = ccs.getTVOC())
-			result = firebase.put('/data/' + current_timstamp ,name='Temperature',data = temp)
-		else:
-			print ("ERROR!")
-			while(1):
-				 pass
-			
-	#GUVA-S12SD
-	S12SD_Raw = readadc(0)
-	S12SD_Volts = (S12SD_Raw * 3.3) / 1024
-	print ("%4d/1023 => %5.3f V" % (S12SD_Raw, S12SD_Volts))
-	result = firebase.put('/data/'+current_timstamp,name='S12SD_Raw',data = S12SD_Raw)
-	result = firebase.put('/data/'+current_timstamp,name='S12SD_Volts',data = S12SD_Volts)
-	
-	#Mics 5524
-	Gas = readadc(1)
-	print( "Gas Level:", Gas)
-	result = firebase.put('/data/' + current_timstamp ,name='Gas_Level',data = Gas)
+        current_timstamp = str(int(time.time()))
 
-	
+        #CCS811
+        if ccs.available():
+                temp = ccs.calculateTemperature()
+                period = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
+                if not ccs.readData():
+                        print ("CO2", ccs.geteCO2(),"   " , "TVOC", ccs.getTVOC(),"     ", "Temp", temp, "      ")
+                        print (period)
+                        result = firebase.put('/data/' + current_timstamp ,name='Time',data = period)
+                        result = firebase.put('/data/' + current_timstamp ,name='CO2', data = ccs.geteCO2())
+                        result = firebase.put('/data/' + current_timstamp ,name='TVOC',data = ccs.getTVOC())
+                else:
+                        print ("ERROR!")
+                        while(1):
+                                 pass
+
+        #GUVA-S12SD
+        S12SD_Raw = readadc(0)
+        S12SD_Volts = (S12SD_Raw * 3.3) / 1024
+        print ("%4d/1023 => %5.3f V" % (S12SD_Raw, S12SD_Volts))
+        result = firebase.put('/data/'+current_timstamp,name='S12SD_Volts',data = S12SD_Volts)
+
+        #Mics 5524
+        Gas = readadc(1)
+        print( "Gas Level:", Gas)
+        result = firebase.put('/data/' + current_timstamp ,name='Gas_Level',data = Gas)
+
+
         #Max4466
-	Sound_Values = readadc(2)
-	if Sound_Values < 1024:
-		if Sound_Values>signalmax:
-			signalmax = Sound_Values
-		elif Sound_Values<signalmin:
-			signalmin = Sound_Values
-	peak_to_peak = signalmax - signalmin
-	Sound_Volts = (peak_to_peak * 5.0) / 1024
-	print (peak_to_peak)
-	result = firebase.put('/data/'+current_timstamp,name='peak_to_peak',data = peak_to_peak)
-	print (Sound_Volts)
-	result = firebase.put('/data/'+current_timstamp,name='Sound_Volts',data = Sound_Volts)
-	
-	#GA1A12S202
-	Light = readadc(3)
-	print("Light Level:", readadc(3))
-	result = firebase.put('/data/' + current_timstamp ,name='Light_Level',data = Light)
+        Sound_Values = readadc(2)
+        if Sound_Values < 1024:
+                if Sound_Values>signalmax:
+                        signalmax = Sound_Values
+                elif Sound_Values<signalmin:
+                        signalmin = Sound_Values
+        peak_to_peak = signalmax - signalmin
+        Sound_Volts = (peak_to_peak * 5.0) / 1024
+        print (peak_to_peak)
+        print (Sound_Volts)
+        result = firebase.put('/data/'+current_timstamp,name='Sound_Volts',data = Sound_Volts)
 
-	
-	#DHT22
-	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-	if humidity is not None and temperature is not None:
-    		print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-	else:
-    		print('Failed to get reading. Try again!')
-	result = firebase.put('/data/' + current_timstamp ,name='DHT_Temperature',data = temperature)
-	result = firebase.put('/data/' + current_timstamp ,name='Humidity',data = humidity)
+        #GA1A12S202
+        Light = readadc(3)
+        print("Light Level:", readadc(3))
+        result = firebase.put('/data/' + current_timstamp ,name='Light_Level',data = Light)
 
-	#GPS
-	gps.update()
-	current = time.monotonic()
-	if current - last_print >= 1.0:
-		last_print = current
-	if not gps.has_fix:
-		print("fixing")
-		continue
-	print('Latitude: {0:.6f} degrees'.format(gps.latitude))
-	print('Longitude: {0:.6f} degrees'.format(gps.longitude))
-	
-	result = firebase.put('/data/' + current_timstamp ,name='Latitude',data = gps.latitude)
-	result = firebase.put('/data/' + current_timstamp ,name='Longitude',data = gps.longitude)
 
-	print('Fix quality: {}'.format(gps.fix_quality))
-	if gps.satellites is not None:
-		print('# satellites: {}'.format(gps.satellites))
-	if gps.altitude_m is not None:
-		print('Altitude: {} meters'.format(gps.altitude_m))
-	if gps.track_angle_deg is not None:
-		print('Speed: {} knots'.format(gps.speed_knots))
-	if gps.track_angle_deg is not None:
-		print('Track angle: {} degrees'.format(gps.track_angle_deg))
-	if gps.horizontal_dilution is not None:
-		print('Horizontal dilution: {}'.format(gps.horizontal_dilution))
-	if gps.height_geoid is not None:
-		print('Height geo ID: {} meters'.format(gps.height_geoid))
+        #DHT22
+        humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+        if humidity is not None and temperature is not None:
+                print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+        else:
+                print('Failed to get reading. Try again!')
+        #GPS
+        gps.update()
+        current = time.monotonic()
+        if current - last_print >= 1.0:
+                last_print = current
+        if not gps.has_fix:
+                print("fixing")
+
+        if gps.has_fix:
+                print('Latitude: {0:.6f} degrees'.format(gps.latitude))
+                print('Longitude: {0:.6f} degrees'.format(gps.longitude))
+
+                result = firebase.put('/data/' + current_timstamp ,name='Latitude',data = gps.latitude)
+                result = firebase.put('/data/' + current_timstamp ,name='Longitude',data = gps.longitude)
+
+                print('Fix quality: {}'.format(gps.fix_quality))
+                if gps.satellites is not None:
+                        print('# satellites: {}'.format(gps.satellites))
+                if gps.altitude_m is not None:
+                        print('Altitude: {} meters'.format(gps.altitude_m))
+                if gps.track_angle_deg is not None:
+                        print('Speed: {} knots'.format(gps.speed_knots))
+                if gps.track_angle_deg is not None:
+                        print('Track angle: {} degrees'.format(gps.track_angle_deg))
+                if gps.horizontal_dilution is not None:
+                        print('Horizontal dilution: {}'.format(gps.horizontal_dilution))
+                if gps.height_geoid is not None:
+                        print('Height geo ID: {} meters'.format(gps.height_geoid))
+
+        #BME280
+        bme_degrees = BME.read_temperature()
+        pascals = BME.read_pressure()
+        hectopascals = pascals / 100
+        bme_humidity = BME.read_humidity()
 	
-	#BME280
-	bme_degrees = BME.read_temperature()
-	pascals = BME.read_pressure()
-	hectopascals = pascals / 100
-	bme_humidity = BME.read_humidity()
-	
-	print("BME Temp:",bme_degrees)
-	print("Pressure:",hectopascals)
-	print("BME Humidity:",bme_humidity)
-	result = firebase.put('/data/' + current_timstamp ,name='BME_Temp',data = bme_degrees)
-	result = firebase.put('/data/' + current_timstamp ,name='Pressure',data = hectopascals)
-	result = firebase.put('/data/' + current_timstamp ,name='BME_Humidity',data = bme_humidity)
-	
+        print("BME Temp:",bme_degrees)
+        print("Pressure:",hectopascals)
+        print("BME Humidity:",bme_humidity)
+        result = firebase.put('/data/' + current_timstamp ,name='Pressure',data = hectopascals)
+        #Average Temperature and Humidity
+        avg_temp = (bme_degrees+temperature)/2
+        result = firebase.put('/data/' + current_timstamp ,name='Temperature',data = avg_temp)
+        avg_humidity = (bme_humidity+humidity)/2
+        result = firebase.put('/data/' + current_timstamp ,name='Humidity',data = avg_humidity)
         #time interval 
-	time.sleep(60)
+        time.sleep(1800)
