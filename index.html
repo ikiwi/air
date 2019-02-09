@@ -1,50 +1,79 @@
+<!AirPi HTML>
 <html>
+
 <head>
-  <title>Air Quality Sensor Database</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-    <script
-  src="https://code.jquery.com/jquery-1.12.4.min.js"
-  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-  crossorigin="anonymous"></script>
-  <style>
-  table {
+	<title>Air Quality Sensor Database</title>
+  	<!Style Sheet Link>
+  	<link rel="stylesheet" type="text/css" href="style.css">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta charset="utf-8">
+
+  	<!Import Google Chart>
+  	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  	<!Jquery import $ and firebase related id>
+  	<script
+  	src="https://code.jquery.com/jquery-1.12.4.min.js"
+  	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  	crossorigin="anonymous"></script>
+
+  	<style>
+  	table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 40%;
         }
 
-  td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-      }
+  	td, th {
+      	border: 1px solid #dddddd;
+      	text-align: left;
+      	padding: 8px;
+      	}
 
     #map {
-            height: 500px;
-            width: 500px;
+        height: 500px;
+        width: 100%;
         }
 
     html, body {
-          height: 100%;
-          margin: 15;
-          padding: 10;
-          }
+        height: 100%;
+        margin: 15;
+        padding: 10;
+        }
     </style>
 
 </head>
-  
+
 <body>
+	<!Selection Menu>
+	<select id = "TimeSelect">
+		<option>Time Amount(Select a Marker)</option>
+	</select>
 
-        <select>
-            <option value="time">time_amount</option>
-        </select>
+	<!Predict 1 Day Button>
+	<button id = "p1d" onclick="predict(1)">Predict in 1 Day</button>
 
-        <table>
+	<!Predict x Days input>
+	<form id = "PredictForm"> 
+		Number of Days to Predict: <input name="pd" type="number" min="1">
+	</form>
+	<button onclick="outputpd()">Submit</button>
+
+
+
+	<!Value Table imported from Firebase>
+	<table>
         <tr>
           <th>Data Type</th>
           <th>Values</th>
+        </tr>
+        <tr>
+          <td>Temperature</td>
+          <td><label id="Temperature_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>Humidity</td>
+          <td><label id="Humidity_Label"> </label></td>
         </tr>
         <tr>
           <td>CO2</td>
@@ -55,20 +84,8 @@
           <td><label id="TVOC_Label"> </label></td>
         </tr>
         <tr>
-          <td>Temperature</td>
-          <td><label id="Temperature_Label"> </label></td>
-        </tr>
-        <tr>
-          <td>S12SD Raw</td>
-          <td><label id="S12SD_Raw_Label"> </label></td>
-        </tr>
-        <tr>
-          <td>S12SD Volts</td>
+          <td>UV Level</td>
           <td><label id="S12SD_Volts_Label"> </label></td>
-        </tr>
-        <tr>
-          <td>Peak-to-Peak Volume</td>
-          <td><label id="peak_to_peak_Label"> </label></td>
         </tr>
         <tr>
           <td>Sound Volume</td>
@@ -83,14 +100,6 @@
           <td><label id="Light_Level_Label"> </label></td>
         </tr>
         <tr>
-          <td>DHT Temperature</td>
-          <td><label id="DHT_Temperature_Label"> </label></td>
-        </tr>
-        <tr>
-          <td>DHT Humidity</td>
-          <td><label id="Humidity_Label"> </label></td>
-        </tr>
-        <tr>
           <td>Latitude</td>
           <td><label id="Latitude_Label"> </label></td>
         </tr>
@@ -99,178 +108,397 @@
           <td><label id="Longitude_Label"> </label></td>
         </tr>
         <tr>
-          <td>BME temperature</td>
-          <td><label id="BME_Temp_Label"> </label></td>
-        </tr>
-        <tr>
-          <td>BME Humidity</td>
-          <td><label id="BME_Humidity_Label"> </label></td>
-        </tr>
-        <tr>
           <td>Pressure</td>
           <td><label id="Pressure_Label"> </label></td>
         </tr>
-      </table>
-        <table id="myTable">
-          <tbody>
-            <tr>Time Table</tr>      
-          </tbody>
-      </table>
-    
+    </table>
+
+	<table>
+        <tr>
+          <th>Data Type</th>
+          <th>Values</th>
+        </tr>
+        <tr>
+          <td>Temperature</td>
+          <td><label id="Temperature_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>Humidity</td>
+          <td><label id="Humidity_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>CO2</td>
+          <td><label id="CO2_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>TVOC</td>
+          <td><label id="TVOC_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>UV Level</td>
+          <td><label id="S12SD_Volts_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>Sound Volume</td>
+          <td><label id="Sound_Values_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>Gas Level</td>
+          <td><label id="Gas_Level_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>Light Level</td>
+          <td><label id="Light_Level_Predict_Label"> </label></td>
+        </tr>
+        <tr>
+          <td>Pressure</td>
+          <td><label id="Pressure_Predict_Label"> </label></td>
+        </tr>
+    </table>
+
+    <!Time Chart>
+	<div id="chart_div"></div>
+
+    <!Map>
     <div id="map"></div>
 
+    <!Javascript>
+    <script>
 
-  <script>
-  
-    
-    var timeResultMap = {};
-    function updateValue(timedata) {
-                      var result = timeResultMap[timedata];
-                      $("#CO2_Label").text(result.CO2);
-                      $("#TVOC_Label").text(result.TVOC);
-                      $("#Temperature_Label").text(result.Temperature);
-                      $("#Time_Label").text(result.Time);
-                      $("#S12SD_Raw_Label").text(result.S12SD_Raw);
-                      $("#S12SD_Volts_Label").text(result.S12SD_Volts);
-                      $("#peak_to_peak_Label").text(result.peak_to_peak);
-                      $("#Sound_Values_Label").text(result.Sound_Values);
-                      $("#Gas_Level_Label").text(result.Gas_Level);
-                      $("#Light_Level_Label").text(result.Light_Level);
-                      $("#DHT_Temperature_Label").text(result.DHT_Temperature);
-                      $("#Humidity_Label").text(result.Humidity);
-                      $("#Latitude_Label").text(result.Latitude);
-                      $("#Longitude_Label").text(result.Longitude);
-                      $("#BME_Temp_Label").text(result.BME_Temp);
-                      $("#BME_Humidity_Label").text(result.BME_Humidity);
-                      $("#Pressure_Label").text(result.Pressure);
+   		//Define Values 	
+    	var timeResultMap = {};
+    	var map;
+    	var cLat = 0;
+    	var cLon = 0;
 
-    }   
-
-    var map;
-    function initMap() {
-
-            map = new google.maps.Map(document.getElementById('map'), {
-              center: {lat: 32.715736, lng: -117.1611},
-            zoom: 9
-            });
-            
-            $.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
-              // console.log(result1);
-              // jquery
-              var locHistoryMap = {};
-              var allData = [];
-              var index = 1;
-        
-                  $.each(result1, function(key, value) {
-
-                    var result = value;
-
-                    console.log(result.CO2);
-                    console.log(result.TVOC);
-                    console.log(result.Temperature);
-                    console.log(result.Time);
-                    console.log(result.S12SD_Raw);
-                    console.log(result.S12SD_Volts);
-                    console.log(result.peak_to_peak);
-                    console.log(result.Sound_Volts);
-                    console.log(result.lattitude);
-                    console.log(result.longitude);                  
-                    console.log(result.Light_Level);
-                    console.log(result.Gas_Level);
-                    console.log(result.DHT_Temperature);
-                    console.log(result.longitude);
-                    console.log(result.BME_Humidity);
-            console.log(result.BME_Temp);
-            console.log(result.Pressure);
-
-                    $("#CO2_Label").text(result.CO2);
-                    $("#TVOC_Label").text(result.TVOC);
-                    $("#Temperature_Label").text(result.Temperature);
-                    $("#Time_Label").text(result.Time);
-                    $("#S12SD_Raw_Label").text(result.S12SD_Raw);
-                    $("#S12SD_Volts_Label").text(result.S12SD_Volts);
-                    $("#peak_to_peak_Label").text(result.peak_to_peak);
-                    $("#Sound_Values_Label").text(result.Sound_Volts);
-                    $("#Gas_Level_Label").text(result.Gas_Level);
-                    $("#Light_Level_Label").text(result.Light_Level);
-                    $("#DHT_Temperature_Label").text(result.DHT_Temperature);
-                    $("#Humidity_Label").text(result.Humidity);
-                    $("#Latitude_Label").text(result.Latitude);
-                    $("#Longitude_Label").text(result.Longitude);
-                    $("#BME_Temp_Label").text(result.BME_Temp);
-        $("#BME_Humidity_Label").text(result.BME_Humidity);
-        $("#Pressure_Label").text(result.Pressure);
-
-            var data = [];
-              data.push(index);
-                    data.push(result.CO2);
-                    index++;
-                    allData.push(data);
-              
-                    // The location of Airpi                    
-                    var air = {lat: result.Latitude, lng: result.Longitude};
-                    console.log(air);
-
-                    if (result.Latitude != null && result.Longitude != null) {
-                      var key = result.Latitude + "," + result.Longitude;
-                      var historyList = locHistoryMap[key];
-                      if (historyList == null) {
-                        historyList = [];                        
-                      }
-                      historyList.push(result);
-                      locHistoryMap[key] = historyList;
-
-                      timeResultMap[result.Time] = result;
-                    }
-
-                    var marker = new google.maps.Marker({
-                      position: air, 
-                      map: map,
-                      title: "Airpi",
-                      draggable: true,
-                      animation: google.maps.Animation.DROP
-                      }); 
-
-
-                    marker.addListener('click', function() {
-                      map.setZoom(8);
-                      map.setCenter(marker.getPosition());
-
-                      var key = result.Latitude + "," + result.Longitude;
-                      var historyData = locHistoryMap[key];
-                      $("#myTable").empty()
-                      for (var i = 0; i < historyData.length; i++) {
-                        console.log("History Map: " + key + ": " + i + " " + historyData[i].Time);                        
-                        $("#myTable").last().append('<tr><td><button onclick="updateValue(\'' + historyData[i].Time + '\')">' + historyData[i].Time + '</button></td></tr>');
-                      }
-
-                      $("#CO2_Label").text(result.CO2);
-                      $("#TVOC_Label").text(result.TVOC);
-                      $("#Temperature_Label").text(result.Temperature);
-                      $("#Time_Label").text(result.Time);
-                      $("#S12SD_Raw_Label").text(result.S12SD_Raw);
-                      $("#S12SD_Volts_Label").text(result.S12SD_Volts);
-                      $("#peak_to_peak_Label").text(result.peak_to_peak);
-                      $("#Sound_Values_Label").text(result.Sound_Volts);
-                      $("#Gas_Level_Label").text(result.Gas_Level);
-                      $("#Light_Level_Label").text(result.Light_Level);
-                      $("#DHT_Temperature_Label").text(result.DHT_Temperature);
-                      $("#Humidity_Label").text(result.Humidity);
-                      $("#Latitude_Label").text(result.Latitude);
-                      $("#Longitude_Label").text(result.Longitude);
-                      $("#BME_Temp_Label").text(result.BME_Temp);
-            $("#BME_Humidity_Label").text(result.BME_Humidity);
+    	//Update function Value
+    	function updateValue(timedata) {
+            var result = timeResultMap[timedata];
+            $("#CO2_Label").text(result.CO2);
+            $("#TVOC_Label").text(result.TVOC);
+            $("#Temperature_Label").text(result.Temperature);
+            $("#Time_Label").text(result.Time);
+            $("#S12SD_Volts_Label").text(result.S12SD_Volts);
+            $("#Sound_Values_Label").text(result.Sound_Values);
+            $("#Gas_Level_Label").text(result.Gas_Level);
+            $("#Light_Level_Label").text(result.Light_Level);
+            $("#Humidity_Label").text(result.Humidity);
+            $("#Latitude_Label").text(result.Latitude);
+            $("#Longitude_Label").text(result.Longitude);
             $("#Pressure_Label").text(result.Pressure);
-                    });
+		}
 
-                  });
-            }});        
-         }
-  </script>
-  
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwxvMl3ZCLS87abguRfb-cyfwuyUE4OVM&callback=initMap"async defer>
-</script>
+		//Get value from AWS Server with Running Python Script
+		function predict(day) {
+      		var timestamp = new Date().getTime();
+      		timestamp += 24 * 60 * 60 * 1000 * day;
+      		timestamp = timestamp / 1000;
+      		console.log("Predicting: " + timestamp);
 
+      		$.ajax(
+      		{
+        		type : "GET",
+        		url  : "http://54.183.198.0:5500/predict/co2/" + timestamp + "/" + cLat + "/" + cLon,
+       			data : {
+        		},
+        		success : function(result) {
+          			console.log("Get predicted value: " + result)
+          			$("#CO2_Predict_Label").text(result);
+        		},
+        		error: function (jqXHR, exception) {
+          		console.log("Failed to get the prediction.")
+        		}
+      		});
+
+      		$.ajax(
+      		{
+        		type : "GET",
+        		url  : "http://54.183.198.0:5500/predict/humidity/" + timestamp + "/" + cLat + "/" + cLon,
+        		data : {
+        		},
+        		success : function(result) {
+          		console.log("Get predicted value: " + result)
+          		$("#Humidity_Predict_Label").text(result);
+        		},
+        		error: function (jqXHR, exception) {
+          		console.log("Failed to get the prediction.")
+        		}
+      		});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/temperature/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#Temperature_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/light/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#Light_Level_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/sound/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#Sound_Values_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/uv/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#S12SD_Volts_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/pressure/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#Pressure_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/gas/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#Gas_Level_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+			$.ajax(
+			{
+				type : "GET",
+				url  : "http://54.183.198.0:5500/predict/tvoc/" + timestamp + "/" + cLat + "/" + cLon,
+				data : {
+				},
+				success : function(result) {
+				console.log("Get predicted value: " + result)
+				$("#TVOC_Predict_Label").text(result);
+				},
+				error: function (jqXHR, exception) {
+				console.log("Failed to get the prediction.")
+				}
+			});
+
+    	}   
+
+    	function outputpd(){
+			var x,y;
+			x=document.getElementById("PredictForm");
+			y=x.elements[pd].value;
+			predict(y);
+		}
+
+    	//Initiate Map a Certain Location
+    	function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 32.715736, lng: -117.1611},
+            zoom: 9
+        	});
+		
+
+		//Push Value from Database
+		$.ajax({url: "https://airquality-8059.firebaseio.com/data.json", success: function(result1) {
+            // console.log(result1);
+            // jquery
+            var locHistoryMap = {};
+            var allData = [];
+            var index = 1;
+        
+			$.each(result1, function(key, value) {
+
+                var result = value;
+
+                console.log(result.CO2);
+                console.log(result.TVOC);
+                console.log(result.Temperature);
+                console.log(result.Time);
+                console.log(result.S12SD_Volts);
+                console.log(result.Sound_Volts);
+                console.log(result.lattitude);
+                console.log(result.longitude);                  
+                console.log(result.Light_Level);
+                console.log(result.Gas_Level);
+                console.log(result.longitude);
+                console.log(result.Pressure);
+
+                $("#CO2_Label").text(result.CO2);
+                $("#TVOC_Label").text(result.TVOC);
+                $("#Temperature_Label").text(result.Temperature);
+                $("#Time_Label").text(result.Time);
+                $("#S12SD_Volts_Label").text(result.S12SD_Volts);
+                $("#Sound_Values_Label").text(result.Sound_Volts);
+                $("#Gas_Level_Label").text(result.Gas_Level);
+                $("#Light_Level_Label").text(result.Light_Level);
+                $("#Humidity_Label").text(result.Humidity);
+                $("#Latitude_Label").text(result.Latitude);
+                $("#Longitude_Label").text(result.Longitude);
+                $("#Pressure_Label").text(result.Pressure);
+
+                //Push Values
+                var data = [];
+              	data.push(index);
+                data.push(result.CO2);
+                index++;
+                allData.push(data);
+
+                // The location of Airpi                    
+                var air = {lat: result.Latitude, lng: result.Longitude};
+                console.log(air);
+
+                if (result.Latitude != null && result.Longitude != null) {
+                    var key = result.Latitude + "," + result.Longitude;
+                    var historyList = locHistoryMap[key];
+                    if (historyList == null) {
+                    	historyList = [];                        
+                    }
+                  	historyList.push(result);
+                  	locHistoryMap[key] = historyList;
+
+                  	timeResultMap[result.Time] = result;
+                }
+
+                //Map Marker
+                var marker = new google.maps.Marker({
+					position: air, 
+					map: map,
+					title: "Airpi",
+					draggable: true,
+					animation: google.maps.Animation.DROP
+				}); 
+
+                //Clicks on Markers
+                marker.addListener('click', function() {
+					map.setZoom(8);
+					map.setCenter(marker.getPosition());
+
+					cLat = result.Latitude;
+					cLon = result.Longitude;
+
+					var key = result.Latitude + "," + result.Longitude;
+					var historyData = locHistoryMap[key];
+					$("#TimeSelect").empty()
+
+					var allData = [];                      
+					var index = 1;                      
+
+					for (var i = 0; i < historyData.length; i++) {
+						console.log("History Map: " + key + ": " + i + " " + historyData[i].Time);                        
+						$('#TimeSelect').append($("<option>" + historyData[i].Time + "</option>")); 
+
+						// Graph
+						var data = [];
+						data.push(index);
+						data.push(historyData[i].CO2);
+						index++;
+						allData.push(data);
+					}
+
+					//google chart
+
+					google.charts.load('current', {packages: ['corechart', 'line']});
+					google.charts.setOnLoadCallback(drawBasic);
+					
+					//Chart Drawing
+					function drawBasic() {
+
+						var data = new google.visualization.DataTable();
+						data.addColumn('number', 'Time');
+						data.addColumn('number', 'Value');
+
+						data.addRows(allData);
+
+						var options = {
+							hAxis: {
+								title: 'Time'
+							},
+							vAxis: {
+								title: 'Value'
+							}
+						};
+
+						var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+						chart.draw(data, options);                      
+					}
+
+					//When Time Select Change
+					$('#TimeSelect').change(function () {
+						console.log($(this).val());
+						updateValue($(this).val());
+					});
+
+	                $("#CO2_Label").text(result.CO2);
+	                $("#TVOC_Label").text(result.TVOC);
+	                $("#Temperature_Label").text(result.Temperature);
+	                $("#Time_Label").text(result.Time);
+	                $("#S12SD_Volts_Label").text(result.S12SD_Volts);
+	                $("#Sound_Values_Label").text(result.Sound_Volts);
+	                $("#Gas_Level_Label").text(result.Gas_Level);
+	                $("#Light_Level_Label").text(result.Light_Level);
+	                $("#Humidity_Label").text(result.Humidity);
+	                $("#Latitude_Label").text(result.Latitude);
+	                $("#Longitude_Label").text(result.Longitude);
+	                $("#Pressure_Label").text(result.Pressure);
+            });
+        });
+	}});        
+}
+	</script>
+
+	<!Google Map KEY>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwxvMl3ZCLS87abguRfb-cyfwuyUE4OVM&callback=initMap"async defer>
+	</script>
 </body>
-</html>
 
+</html>
