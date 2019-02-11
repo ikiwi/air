@@ -125,7 +125,8 @@
     <div id="tvocChart_div"></div>
     <div id="pressureChart_div"></div>
 
-  <h1>Prediction</h1>
+
+    <h1>Prediction</h1>
   <table>
         <tr>
           <th>Data Type</th>
@@ -513,47 +514,47 @@
 
             var temparray = new google.visualization.DataTable();
             temparray.addColumn('number', 'Time');
-            temparray.addColumn('number', 'Value');
+            temparray.addColumn('number', 'Temperature');
             temparray.addRows(temperatureData);
 
             var humidityarray = new google.visualization.DataTable();
             humidityarray.addColumn('number', 'Time');
-            humidityarray.addColumn('number', 'Value');
+            humidityarray.addColumn('number', 'humidity');
             humidityarray.addRows(humidityData);
 
             var co2array = new google.visualization.DataTable();
             co2array.addColumn('number', 'Time');
-            co2array.addColumn('number', 'Value');
+            co2array.addColumn('number', 'CO2');
             co2array.addRows(co2Data);
 
             var lightarray = new google.visualization.DataTable();
             lightarray.addColumn('number', 'Time');
-            lightarray.addColumn('number', 'Value');
+            lightarray.addColumn('number', 'Light');
             lightarray.addRows(lightData);
 
             var soundarray = new google.visualization.DataTable();
             soundarray.addColumn('number', 'Time');
-            soundarray.addColumn('number', 'Value');
+            soundarray.addColumn('number', 'Sound');
             soundarray.addRows(soundData);
 
             var uvarray = new google.visualization.DataTable();
             uvarray.addColumn('number', 'Time');
-            uvarray.addColumn('number', 'Value');
+            uvarray.addColumn('number', 'UV');
             uvarray.addRows(uvData);
 
             var gasarray = new google.visualization.DataTable();
             gasarray.addColumn('number', 'Time');
-            gasarray.addColumn('number', 'Value');
+            gasarray.addColumn('number', 'Gas');
             gasarray.addRows(gasData);
 
             var pressurearray = new google.visualization.DataTable();
             pressurearray.addColumn('number', 'Time');
-            pressurearray.addColumn('number', 'Value');
+            pressurearray.addColumn('number', 'Pressure');
             pressurearray.addRows(pressureData);
 
             var tvocarray = new google.visualization.DataTable();
             tvocarray.addColumn('number', 'Time');
-            tvocarray.addColumn('number', 'Value');
+            tvocarray.addColumn('number', 'TVOC');
             tvocarray.addRows(tvocData);            
 
             var options = {
